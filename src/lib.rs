@@ -35,7 +35,9 @@ pub mod minipgb {
             // println!("{}", Color::Red.paint("This text is red!"));
         }
         pub fn inc(&mut self, n: usize) {
-            self.value += n;
+            if self.value < 100 {
+                self.value += n;
+            }
         }
 
         pub fn finish(self) {}
