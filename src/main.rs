@@ -1,5 +1,8 @@
 fn main() {
     println!("hello, world");
-    let pg = minipgb::minipgb::new();
+    let mut pg = minipgb::minipgb::new();
     pg.start();
+    for _i in 1..100 {
+        pg.inc(1);
+    }
 }
