@@ -16,46 +16,29 @@ pub mod minipgb {
     }
     impl MiniPgb {
         pub fn start(&self) {
-            draw();
-            // let size = terminal_size();
-            // if let Some((Width(w), Height(h))) = size {
-            //     // println!("Your terminal is {} cols wide and {} lines tall", w, h);
-            //     let val_progress = "";
-            //     let mut text = "".to_string();
-            //     let prefix = "download file : test.png";
-            //     let template = format!("{}[]", prefix);
-            //     for _ in val_progress.len()..(w as usize) - template.len() {
-            //         text.insert(0, ' ');
-            //     }
-            //     println!("{}[{}]", prefix, text)
-            // } else {
-            //     println!("Unable to get terminal size");
-            // }
-
-            // println!("{}", Color::Red.paint("This text is red!"));
+            draw(self.value);            
         }
         pub fn inc(&mut self, n: usize) {
             if self.value < 100 {
                 self.value += n;
             }
+            draw(self.value);
         }
 
         pub fn finish(self) {}
     }
 }
 
-fn draw() {
+fn draw(pg_value: usize) {
     let size = terminal_size();
-    if let Some((Width(w), Height(_h))) = size {
-        // println!("Your terminal is {} cols wide and {} lines tall", w, h);
-        let val_progress = "";
-        let mut text = "".to_string();
-        let prefix = "download file : test.png";
-        let template = format!("{}[]", prefix);
-        for _ in val_progress.len()..(w as usize) - template.len() {
-            text.insert(0, ' ');
-        }
-        println!("{}[{}]", prefix, text)
+    if let Some((Width(w), Height(_h))) = size {                
+        let prefix = "Download File > download.png ";        
+        let len = prefix.len();        
+        let tatal_txt_100 = w as usize - prefix.len() - "[]".len();        
+        let pg  = (pg_value as f32/100.0) * tatal_txt_100 as f32;
+        let space = tatal_txt_100 - pg as usize;        
+        let  text = format!("{}{}", "#".repeat(pg as usize), " ".repeat(space));        
+        print!("\r{}[{}]", prefix, text);        
     } else {
         println!("Unable to get terminal size");
         process::exit(0x0100);
